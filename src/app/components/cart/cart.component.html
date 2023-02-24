@@ -1,0 +1,26 @@
+<p class="empty-cart-message" *ngIf="cart.length==0"> Cart is empty</p>
+<div class="cart-container" *ngIf="cart.length>0">
+    <div class="cart-panel">
+        <div class="cart-item-details" *ngFor="let p of cart">
+            <img src="{{p.url}}">
+            <h3 class="cart-item">{{p.name}}</h3>
+            <p class="cart-item">{{p.price | currency}}</p>
+            <select #c (ngModelChange)="onChange(c.value , p)">
+                <option *ngFor="let val of count" [selected]="val == p.amount">{{val}}</option>
+            </select>
+        </div>
+        <h1 >Total: ${{total}}</h1>
+    </div>
+    <form #form="ngForm" class="form-margin">
+        <p>Full name</p>
+        <input type="text" name="name" required minlength="3" placeholder="(minimum 3 characters)" [(ngModel)]="name">
+        <p>Address</p>
+        <input type="text" name="address" required minlength="6" placeholder="(minimum 6 characters)" [(ngModel)]="address">
+        <p>Credit card number</p>
+        <input type="number" name="ccNum" required minlength="16" maxlength="16" placeholder="(requied 16 digits of number)" [(ngModel)]="ccNum">
+        <p>We will never share your payment details with anyone else</p>
+        <a routerLink="/confirmation" [state]="order">
+            <input (click)="onSubmit()" type="submit" [disabled]="form['invalid']" value="Submit">
+        </a>
+    </form>
+</div>
